@@ -72,9 +72,11 @@ def sendsms(request):
     httpClient = httplib.HTTPConnection('106.ihuyi.cn', 80, False, 30)
     httpClient.request('POST', '/webservice/sms.php?method=Submit', data, headers)
     httpres = httpClient.getresponse()
-    print httpres.status
-    print httpres.reason
-    print httpres.read()
+    if debug:
+        print httpres.status
+        print httpres.reason
+        print httpres.read()
+    request.session['smscode'] = smscode
     return HttpResponse(httpres.status)
 def registerHandler(request):
     c= {}
@@ -91,14 +93,19 @@ def registerHandler(request):
     try:
         if request.method=='POST':  
             username=request.POST.get('name','')  
-            password=request.POST.get('uPassword','')  
+            password=request.POST.get('uPassword','')
+            smscode = request.POST.get('smscode', '')
             email=request.POST.get('email','')  
             phone=request.POST.get('phone','')  
             errors=[]  
             if debug:
                 print("UserName : %s"%username)
-                print("Password : %s"%password)  
-            filterResult=User.objects.filter(username=username)  
+                print("Password : %s"%password)
+                print("Smscode : %s"%smscode)
+            if smscode != request.session['smscode']:
+                errors.append("验证码错误")
+                return render(request, "register_fail.html")
+            filterResult=User.objects.filter(username=username)
             if len(filterResult)>0:  
                 errors.append("用户名已存在")  
                 return render(request, "register_fail.html")  
