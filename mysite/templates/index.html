@@ -1,11 +1,20 @@
 {% extends "base.html"%}
 {% block top %}
+
+{% if logged %}
+    <div class="container">
+        <div class="pull-right">
+            <a href="/account/logout">退出</a>
+        </div>
+    </div>
+{% else %}
 <div class="container">
     <div class="pull-right">
         <a href="/account/signup">登陆</a>
         <a href="/account/register">注册</a>
     </div>
 </div>
+{% endif %}
 {%endblock%}
 
   

@@ -52,8 +52,10 @@ def login(request):
     return HttpResponse(html)
 
 def logout(request):
-    print("Logout")
-    
+    auth.logout(request)
+    html = render(request, "index.html")
+    return HttpResponse(html)
+
 def register(request):
     html = render(request,'register.html')
     return HttpResponse(html)
@@ -83,6 +85,7 @@ def sendsms(request):
         print httpres.read()
     request.session['smscode'] = smscode
     return HttpResponse(httpres.status)
+
 def registerHandler(request):
     c= {}
     errCode = -1
