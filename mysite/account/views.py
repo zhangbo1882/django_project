@@ -11,6 +11,11 @@ from DjangoCaptcha import Captcha
 import httplib, urllib
 import random
 debug = 1
+
+def signup(request):
+    html = render(request, "login.html")
+    return HttpResponse(html)
+
 def login(request):
     c= {}
     errCode = -1

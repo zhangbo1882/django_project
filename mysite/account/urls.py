@@ -4,6 +4,7 @@ from account import views
 
 urlpatterns = [
     url(r'^login/$',views.login),
+    url(r'^signup/$', views.signup),
     url(r'^register/$',views.register),
     url(r'^registerHandler/$',views.registerHandler),
     url(r'^sendsms/$',views.sendsms),
